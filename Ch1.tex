@@ -1,0 +1,165 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+	
+\pagestyle{fancy}
+%\rhead{Andrew Lohr}
+\title{Chapter 1}
+\author{Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+%\newtheorem{ex1}{Exercise}
+%\newenvironment{exercise}{\pgfmathparse{\curnum +1}\def\curnum{\pgfmathresult}\newtheorem{ex\curnum}{Exercise}\label{lbl\curnum}\label{last}\begin{ex\curnum}}{\end{ex\curnum}}
+%\newenvironment{exercise}{\stepcounter{curnum}
+%\newtheorem{ex\value{curnum}}{Exercise}\label{lbl\value{curnum}}\begin{ex\value{curnum}}}{\end{ex\value{curnum}}}
+
+%\newcommand{\scoretable}{
+%\begin{center}\begin{tabular}{|c|c|c|}
+%\hline
+%Problem Number& Page Number& Score \\
+%\hline
+%\newcounter{myi}
+%\setcounter{myi}{1}
+%\loop
+%\myi&\pageref{\myi} &  \\
+%\stepcounter{myi}
+%\ifnum \myi < \curnum
+%\repeat
+% \hline
+%\end{tabular}
+%\end{center}
+%}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\var}{\text{var}}
+
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Exercise 1.3}\\
+
+First, recall equation (1.4), that is, we want to find $\textbf{w}$ to minimize
+
+\begin{align*}
+&\frac{1}{2}\sum_{n=1}^N (y(x_n,\textbf{w}),-t_n)^2 + \frac{\lambda}{2} ||\textbf{w}||^2 \\
+&=\frac{1}{2}\sum_{n=1}^N \left(\left(\sum_{i=0}^M x_n^i w_i\right)-t_n\right)^2 + \frac{\lambda}{2} \sum_{i=0}^M w_i
+\end{align*}
+
+If we then differentiate with respect to $w_i$, distributing the derivative over the outer sum, and using the chain rule for taking the derivative of the squared term, we get
+
+\begin{align*}
+\frac{\lambda}{2} + \sum_{n=1}^N x_n^i \left( \left( \sum_{j=0}^M x_n^j w_j\right) - t_n\right)
+\end{align*}
+
+Since the the function of $w_i$ is positive quadratic in each $w_i$, we know that the solitary critical point is going to be the minimum. So, we just need to set each of these derivatives equal to zero. So, we have
+
+\begin{align*}
+0 &= \frac{\lambda}{2} + \sum_{n=1}^N x_n^i \left( \left( \sum_{i=0}^M x_n^i w_i\right) - t_n\right)
+\end{align*}
+
+However, this is just for our particular $i$, we want to combine all of these equalities into a single equality of vectors. Define
+
+\[
+A_{ij} = \sum_{n=1}^{N} (x_n )^{i+j}
+\]
+
+\[
+T_i = -\frac{\lambda}{2} + \sum_{n=1}^N (x_n)^it_n
+\]
+
+Then, our system of equations to solve becomes
+
+\[
+\sum_{j=0}^M A_{ij}w_j = T_i
+\]
+
+\noindent\textbf{Exercise 1.3}\\
+
+By the law of total probability
+
+\begin{align*}
+\Pr(\text{Apple}) &= \Pr(\text{Apple}|\text{Bin r})\Pr(\text{Bin r}) + \Pr(\text{Apple} | \text{Bin b})\Pr(\text{Bin b}) + \Pr(\text{Apple} | \text{Bin g})\Pr(\text{Bin g})\\
+&=.3 \cdot .2 + .5 \cdot .2 + .3 \cdot .6\\
+&= .06 + .1 + .18\\
+&= .34
+\end{align*}
+
+Now, we'll apply Bayes' rule for the second situation of drawing out an orange, and wanting to know how likely the bin was $g$, assuming that we have the same priors on the distribution of bin that we pick from.
+
+\begin{align*}
+\Pr(\text{Bin g} | \text{Orange}) &= \frac{\Pr(\text{Orange} | \text{Bin g}) \Pr(\text{Bin g})}{\Pr(\text{Orange})}\\
+&=\frac{\Pr(\text{Orange} | \text{Bin g}) \Pr(\text{Bin g})}{\Pr(\text{Orange}|\text{Bin r})\Pr(\text{Bin r}) +  \Pr(\text{Orange}|\text{Bin b})\Pr(\text{Bin b})+ \Pr(\text{Orange}|\text{Bin g})\Pr(\text{Bin g})}\\
+&=\frac{.3 \cdot .6}{.4 \cdot .2 + .5 \cdot .2 + .3 \cdot .6}\\
+&=\frac{.18}{.08 + .1 + .18}\\
+&=\frac{.18}{.36}\\
+&=.5
+\end{align*}
+
+So, after observing that we selected an orange, the probability that we selected from bin $g$ is unchanged (Though we do know that some probability has moved from it being bin $r$ to being bin $b$).
+
+
+\noindent\textbf{Exercise 1.5}\\
+
+\begin{align*}
+\var[f(x)] &= \E\left[ (f(x) - \E[f(x)])^2\right]\\
+&= \E\left[ f(x)^2 - 2f(x)\E[f(x)] + \E[f(x)]^2\right]\\
+&= \E\left[ f(x)^2 \right] - 2\E\left[f(x)\E[f(x)]\right] + \E\left[\E[f(x)]^2\right]\\
+&= \E\left[ f(x)^2 \right] - 2 \E[f(x)] \E[f(x)] + \E[f(x)]^2\E\left[1\right]\\
+&= \E\left[ f(x)^2 \right] - 2  \E[f(x)]^2 + \E[f(x)]^2\\
+&= \E\left[ f(x)^2 \right] -   \E[f(x)]^2 \\
+\end{align*}
+
+as desired. Going from the second to third line, we use linearity of expectation. Then from the third to fourth, we use the fact that $\E[f(x)]$ is a number, not a random variable, and so can be pulled out of any enclosing expectation expression.
+
+\noindent\textbf{Exercise 1.6}\\
+
+Starting from equation (1.41), we can see that this problem is asking us to show that
+
+\[
+\E_{x,y} [xy] = \E[x]\E[y]
+\]
+
+
+\begin{align*}
+\E_{x,y}[xy] &= \int_{x,y} xy \Pr(X=x,Y=y) d(x,y)\\
+&= \int_{x,y} x \Pr(X=x) y \Pr(Y=y) d(x,y)\\
+&= \int_x \int _y x \Pr(X=x) y \Pr(Y=y) dy dx \\
+&= \int_x x \Pr(X=x) \left(\int _y  y \Pr(Y=y) dy\right) dx \\
+&= \left(\int_x x \Pr(X=x) dx \right) \cdot \left(\int _y  y \Pr(Y=y) dy\right) \\
+&= E[x] E[y]
+\end{align*}
+
+Though we wrote out all of our expected values as integrals, we can simulate a discrete distribution using Dirac delta functions for our distribution.
+
+\noindent\textbf{Exercise 1.11}\\
+
+
+\noindent\textbf{Exercise 1.40}\\
+
+The logarithm function is concave, therefore, the inequality given in (1.115) goes the other way. To see this, you can apply (1.115) to the negative of all of the points of data to the function $f(x) = -\ln(x)$ and negate the whole inequality.
+
+So, suppose we the points that we are taking the mean of are $\{x_1,\ldots x_n\}$. For convenience, let $y_i = e^{x_i}$.
+
+\begin{align*}
+\frac{1}{n}\sum_{i=1}^n f(y_i) &\le f( \frac{1}{n} \sum_{i=1}^n y_i) \\
+\frac{1}{n}\sum_{i=1}^n x_i &\le f(  \sum_{i=1}^n y_i)^{\frac{1}{n}}\\
+\frac{1}{n}\sum_{i=1}^n x_i &=\prod_{i=1}^n f(y_i)^{\frac{1}{n}}\\
+\frac{1}{n}\sum_{i=1}^n x_i &=\prod_{i=1}^n x_i^{\frac{1}{n}}\\
+\end{align*}
+
+The left hand side is the arithmetic mean, and the right hand side is the geometric mean, so we have the desired inequality.
+\end{document}
